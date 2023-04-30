@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { io } from 'socket.io-client';
-	import { onMount } from 'svelte';
 
 	let message = '';
 	let messages: string[] = [];
 	let socket: any;
+	let url = 'http://192.168.1.9:3000';
 
-	onMount(() => {
-		socket = io('http://localhost:3000/');
+	function connectSocket() {
+		socket = io(url);
 
 		socket.on('chat message', function (msg: string) {
 			messages.push(msg);
@@ -20,9 +20,12 @@
 				messages = messages;
 			});
 		});
-	});
+
+		alert(`Conectado a ${url}`);
+	}
 
 	function submit() {
+		if (!socket) alert('No está conectado');
 		if (message) {
 			socket.emit('chat message', message);
 			message = '';
@@ -46,16 +49,12 @@
 	<form id="form" action="">
 		<input bind:value={message} id="input" autocomplete="off" />
 		<button type="button" on:click={submit}>Enviar</button>
+		<input bind:value={url} id="input" autocomplete="off" />
+		<button type="button" on:click={connectSocket}>Conectar</button>
 	</form>
 </div>
 
 <style>
-	body {
-		margin: 0;
-		padding-bottom: 3rem;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-	}
-
 	#form {
 		background: rgba(0, 0, 0, 0.15);
 		padding: 0.25rem;

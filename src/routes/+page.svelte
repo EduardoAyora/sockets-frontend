@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { io } from 'socket.io-client';
+	import { sha256 } from 'js-sha256';
 
 	let message = '';
 	let messages: string[] = [];
@@ -27,7 +28,7 @@
 	function submit() {
 		if (!socket) alert('No está conectado');
 		if (message) {
-			socket.emit('chat message', message);
+			socket.emit('chat message', { message, hash: sha256.hmac('claveS3cR3t4', message) });
 			message = '';
 		}
 	}

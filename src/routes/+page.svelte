@@ -50,6 +50,8 @@
 	<form id="form" action="">
 		<input bind:value={message} id="input" autocomplete="off" />
 		<button type="button" on:click={submit}>Enviar</button>
+	</form>
+	<form id="connect" action="">
 		<input bind:value={url} id="input" autocomplete="off" />
 		<button type="button" on:click={connectSocket}>Conectar</button>
 	</form>
@@ -57,6 +59,18 @@
 
 <style>
 	#form {
+		background: rgba(0, 0, 0, 0.15);
+		padding: 0.25rem;
+		position: fixed;
+		bottom: 3rem;
+		left: 0;
+		right: 0;
+		display: flex;
+		height: 3rem;
+		box-sizing: border-box;
+		backdrop-filter: blur(10px);
+	}
+	#connect {
 		background: rgba(0, 0, 0, 0.15);
 		padding: 0.25rem;
 		position: fixed;
@@ -78,7 +92,8 @@
 	#input:focus {
 		outline: none;
 	}
-	#form > button {
+	#form > button,
+	#connect > button {
 		background: #333;
 		border: none;
 		padding: 0 1rem;
